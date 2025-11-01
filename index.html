@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FF Monthly – Joke Edition</title>
+  <style>
+    /* ==== Reset & Base ==== */
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    body { 
+      background:#0a0a0a; 
+      color:#eaeaea; 
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height:100vh;
+      display:flex; 
+      align-items:center; 
+      justify-content:center;
+      padding:1rem;
+    }
+    .container { 
+      width:100%; 
+      max-width:420px; 
+      background:#111; 
+      border-radius:1.5rem; 
+      overflow:hidden;
+      box-shadow:0 20px 40px rgba(0,0,0,.6);
+    }
+
+    /* ==== Header ==== */
+    header {
+      background:linear-gradient(135deg, #ff3b5c, #ff8c42);
+      padding:1.8rem 1.2rem;
+      text-align:center;
+      position:relative;
+    }
+    header h1 {
+      font-size:1.6rem;
+      font-weight:800;
+      letter-spacing:.5px;
+    }
+    header .badge {
+      position:absolute;
+      top:.5rem; right:.5rem;
+      background:#111; color:#ff3b5c;
+      font-size:.65rem; font-weight:700;
+      padding:.25rem .5rem; border-radius:999px;
+    }
+
+    /* ==== Steps ==== */
+    .step { 
+      padding:1.5rem 1.2rem; 
+      display:none; 
+      animation:fadeIn .4s ease-out forwards;
+    }
+    .step.active { display:block; }
+
+    @keyframes fadeIn {
+      from { opacity:0; transform:translateY(12px); }
+      to   { opacity:1; transform:none; }
+    }
+
+    /* ==== Form Elements ==== */
+    label { 
+      display:block; 
+      margin-bottom:.4rem; 
+      font-size:.9rem; 
+      color:#bbb;
+    }
+    input[type=text] {
+      width:100%; 
+      padding:.75rem 1rem; 
+      border:none; 
+      border-radius:.75rem; 
+      background:#222; 
+      color:#fff; 
+      font-size:1rem;
+      margin-bottom:1rem;
+      transition:border .2s;
+    }
+    input[type=text]:focus {
+      outline:none;
+      box-shadow:0 0 0 2px #ff3b5c;
+    }
+
+    /* ==== Buttons ==== */
+    .btn {
+      width:100%; 
+      padding:.9rem; 
+      font-size:1rem; 
+      font-weight:600;
+      border:none; 
+      border-radius:.75rem; 
+      cursor:pointer;
+      transition:transform .15s, background .2s;
+    }
+    .btn-primary {
+      background:#ff3b5c; 
+      color:#fff;
+    }
+    .btn-primary:hover { background:#ff1f44; transform:scale(1.02); }
+    .btn-secondary {
+      background:#333; 
+      color:#ccc; 
+      margin-top:.5rem;
+    }
+
+    /* ==== Days Selection ==== */
+    .days-grid {
+      display:grid; 
+      grid-template-columns:repeat(3,1fr); 
+      gap:.75rem; 
+      margin:1rem 0;
+    }
+    .day-card {
+      background:#1a1a1a; 
+      padding:1rem .5rem; 
+      text-align:center; 
+      border-radius:.75rem; 
+      cursor:pointer;
+      transition:all .2s;
+    }
+    .day-card:hover { background:#222; }
+    .day-card.selected {
+      background:#ff3b5c; 
+      color:#fff; 
+      transform:scale(1.05);
+    }
+
+    /* ==== Progress Bar ==== */
+    .progress {
+      height:4px; 
+      background:#222; 
+      overflow:hidden;
+      position:relative;
+    }
+    .progress-fill {
+      width:0; 
+      height:100%; 
+      background:#ff3b5c; 
+      transition:width .6s ease;
+    }
+
+    /* ==== Success Screen ==== */
+    .success {
+      text-align:center; 
+      padding:2rem 1.2rem;
+    }
+    .success h2 { 
+      font-size:1.5rem; 
+      margin-bottom:.75rem; 
+      background:linear-gradient(90deg, #ff3b5c, #ff8c42);
+      -webkit-background-clip:text; 
+      -webkit-text-fill-color:transparent;
+    }
+    .success p { 
+      font-size:.95rem; 
+      line-height:1.5; 
+      color:#aaa;
+    }
+    .joke {
+      margin-top:1.5rem;
+      font-size:.8rem;
+      color:#666;
+      font-style:italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <h1>Free Fire Monthly</h1>
+      <div class="badge">JOKE</div>
+    </header>
+
+    <!-- Progress -->
+    <div class="progress"><div class="progress-fill" id="prog"></div></div>
+
+    <!-- Step 1: UID -->
+    <section class="step active" id="step1">
+      <label for="uid">Enter Your UID</label>
+      <input type="text" id="uid" placeholder="123456789" autocomplete="off"/>
+      <button class="btn btn-primary" onclick="nextStep(2)">Verify UID</button>
+    </section>
+
+    <!-- Step 2: Processing -->
+    <section class="step" id="step2">
+      <p style="text-align:center; margin-bottom:1rem;">🔍 Verifying UID…</p>
+      <p style="text-align:center; font-size:.9rem; color:#777;">
+        (This is a joke – nothing is sent!)
+      </p>
+      <button class="btn btn-primary" onclick="nextStep(3)" style="margin-top:1rem;">Continue</button>
+    </section>
+
+    <!-- Step 3: Choose Days -->
+    <section class="step" id="step3">
+      <label>Choose Delivery Time</label>
+      <div class="days-grid">
+        <div class="day-card" data-days="1">1 Day</div>
+        <div class="day-card" data-days="2">2 Days</div>
+        <div class="day-card" data-days="3">3 Days</div>
+      </div>
+      <button class="btn btn-primary" id="daysNext" disabled onclick="nextStep(4)">Next</button>
+    </section>
+
+    <!-- Step 4: Facebook Username -->
+    <section class="step" id="step4">
+      <label for="fb">Facebook Username</label>
+      <input type="text" id="fb" placeholder="@yourname" autocomplete="off"/>
+      <button class="btn btn-primary" onclick="nextStep(5)">Submit</button>
+      <button class="btn btn-secondary" onclick="resetAll()">Start Over</button>
+    </section>
+
+    <!-- Step 5: Success / Joke -->
+    <section class="step success" id="step5">
+      <h2>🎉 Delivered!</h2>
+      <p>We’ll contact <strong id="fbOut"></strong> in <strong id="daysOut"></strong> day(s).</p>
+      <p class="joke">…just kidding! Nothing was saved. Refresh to prank again. 😜</p>
+      <button class="btn btn-primary" onclick="resetAll()">Play Again</button>
+    </section>
+  </div>
+
+  <script>
+    const steps = [null,1,2,3,4,5];
+    let current = 1;
+    let selectedDays = null;
+
+    function updateProgress() {
+      const pct = ((current-1)/4)*100;
+      document.getElementById('prog').style.width = pct + '%';
+    }
+
+    function nextStep(to) {
+      if (to === 2) {
+        const uid = document.getElementById('uid').value.trim();
+        if (!uid) { alert('Enter a UID first!'); return; }
+      }
+      if (to === 4 && !selectedDays) { alert('Pick a day!'); return; }
+      if (to === 5) {
+        const fb = document.getElementById('fb').value.trim();
+        if (!fb) { alert('Enter Facebook username!'); return; }
+        document.getElementById('fbOut').textContent = fb;
+        document.getElementById('daysOut').textContent = selectedDays;
+      }
+
+      document.getElementById(`step${current}`).classList.remove('active');
+      current = to;
+      document.getElementById(`step${current}`).classList.add('active');
+      updateProgress();
+    }
+
+    // Days selection
+    document.querySelectorAll('.day-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.day-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        selectedDays = card.dataset.days;
+        document.getElementById('daysNext').disabled = false;
+      });
+    });
+
+    function resetAll() {
+      current = 1;
+      selectedDays = null;
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById('step1').classList.add('active');
+      document.getElementById('uid').value = '';
+      document.getElementById('fb').value = '';
+      document.querySelectorAll('.day-card').forEach(c => c.classList.remove('selected'));
+      document.getElementById('daysNext').disabled = true;
+      updateProgress();
+    }
+
+    // Auto-advance “processing” step
+    setTimeout(() => {
+      if (current === 2) nextStep(3);
+    }, 1800);
+  </script>
+</body>
+</html>
