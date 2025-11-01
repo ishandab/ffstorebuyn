@@ -1,280 +1,561 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FF Monthly – Joke Edition</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FF Elite Pass – Premium Delivery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    /* ==== Reset & Base ==== */
-    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-    body { 
-      background:#0a0a0a; 
-      color:#eaeaea; 
-      font-family: 'Segoe UI', system-ui, sans-serif;
+    :root {
+      --primary: #ff2e5a;
+      --primary-dark: #e61a45;
+      --secondary: #ff8c42;
+      --accent: #00e7ff;
+      --success: #10b981;
+      --bg: #050505;
+      --surface: rgba(20, 20, 20, 0.85);
+      --glass: rgba(30, 30, 30, 0.7);
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #ffffff;
+      --text-muted: rgba(255, 255, 255, 0.7);
+      --text-faint: rgba(255, 255, 255, 0.5);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       min-height:100vh;
-      display:flex; 
-      align-items:center; 
-      justify-content:center;
-      padding:1rem;
-    }
-    .container { 
-      width:100%; 
-      max-width:420px; 
-      background:#111; 
-      border-radius:1.5rem; 
-      overflow:hidden;
-      box-shadow:0 20px 40px rgba(0,0,0,.6);
+      overflow-x:hidden;
+      line-height:1.6;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* ==== Header ==== */
-    header {
-      background:linear-gradient(135deg, #ff3b5c, #ff8c42);
-      padding:1.8rem 1.2rem;
-      text-align:center;
-      position:relative;
+    /* === Background Effects === */
+    .bg-canvas {
+      position:fixed; top:0; left:0; width:100%; height:100%; z-index:0;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(255,46,90,0.12) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255,140,66,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(0,231,255,0.08) 0%, transparent 50%);
+      animation: breathe 25s ease-in-out infinite;
     }
-    header h1 {
-      font-size:1.6rem;
-      font-weight:800;
-      letter-spacing:.5px;
-    }
-    header .badge {
-      position:absolute;
-      top:.5rem; right:.5rem;
-      background:#111; color:#ff3b5c;
-      font-size:.65rem; font-weight:700;
-      padding:.25rem .5rem; border-radius:999px;
+    @keyframes breathe {
+      0%, 100% { opacity: 0.8; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
     }
 
-    /* ==== Steps ==== */
-    .step { 
-      padding:1.5rem 1.2rem; 
-      display:none; 
-      animation:fadeIn .4s ease-out forwards;
-    }
-    .step.active { display:block; }
-
-    @keyframes fadeIn {
-      from { opacity:0; transform:translateY(12px); }
-      to   { opacity:1; transform:none; }
+    /* === Container === */
+    .app-container {
+      max-width: 480px; margin:0 auto; padding:1rem; position:relative; z-index:10;
+      min-height:100vh; display:flex; flex-direction:column;
     }
 
-    /* ==== Form Elements ==== */
-    label { 
-      display:block; 
-      margin-bottom:.4rem; 
-      font-size:.9rem; 
-      color:#bbb;
+    /* === Header === */
+    .header {
+      background: var(--glass); backdrop-filter: blur(24px);
+      border: 1px solid var(--border); border-radius: 24px;
+      padding: 1.75rem 1.5rem; text-align:center; margin-bottom:1.5rem;
+      position:relative; overflow:hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
     }
-    input[type=text] {
-      width:100%; 
-      padding:.75rem 1rem; 
-      border:none; 
-      border-radius:.75rem; 
-      background:#222; 
-      color:#fff; 
-      font-size:1rem;
-      margin-bottom:1rem;
-      transition:border .2s;
+    .header::before {
+      content:''; position:absolute; inset:0;
+      background: linear-gradient(135deg, rgba(255,46,90,0.15), rgba(255,140,66,0.1));
+      opacity:0; transition: opacity 0.4s;
     }
-    input[type=text]:focus {
-      outline:none;
-      box-shadow:0 0 0 2px #ff3b5c;
+    .header:hover::before { opacity:1; }
+    .logo {
+      display:flex; align-items:center; justify-content:center; gap:0.75rem; margin-bottom:0.5rem;
     }
-
-    /* ==== Buttons ==== */
-    .btn {
-      width:100%; 
-      padding:.9rem; 
-      font-size:1rem; 
-      font-weight:600;
-      border:none; 
-      border-radius:.75rem; 
-      cursor:pointer;
-      transition:transform .15s, background .2s;
+    .logo-icon {
+      width:48px; height:48px; background:linear-gradient(135deg,var(--primary),var(--secondary));
+      border-radius:16px; display:flex; align-items:center; justify-content:center;
+      font-size:1.5rem; box-shadow:0 10px 20px rgba(255,46,90,0.3);
     }
-    .btn-primary {
-      background:#ff3b5c; 
-      color:#fff;
+    .logo-text {
+      font-size:1.75rem; font-weight:900; letter-spacing:-0.5px;
+      background:linear-gradient(135deg,#fff,#eee);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
     }
-    .btn-primary:hover { background:#ff1f44; transform:scale(1.02); }
-    .btn-secondary {
-      background:#333; 
-      color:#ccc; 
-      margin-top:.5rem;
+    .tagline {
+      font-size:0.95rem; color:var(--text-muted); font-weight:500;
+      display:flex; align-items:center; justify-content:center; gap:0.5rem; margin-top:0.75rem;
+    }
+    .status-badge {
+      display:inline-flex; align-items:center; gap:0.35rem; font-size:0.8rem;
+      background:rgba(16,185,129,0.15); color:var(--success); padding:0.35rem 0.75rem;
+      border-radius:999px; font-weight:600;
     }
 
-    /* ==== Days Selection ==== */
-    .days-grid {
-      display:grid; 
-      grid-template-columns:repeat(3,1fr); 
-      gap:.75rem; 
-      margin:1rem 0;
+    /* === Progress === */
+    .progress-container {
+      background: rgba(255,255,255,0.05); border-radius:16px; padding:4px;
+      margin:0 1rem 1.5rem; overflow:hidden; backdrop-filter:blur(10px);
     }
-    .day-card {
-      background:#1a1a1a; 
-      padding:1rem .5rem; 
-      text-align:center; 
-      border-radius:.75rem; 
-      cursor:pointer;
-      transition:all .2s;
-    }
-    .day-card:hover { background:#222; }
-    .day-card.selected {
-      background:#ff3b5c; 
-      color:#fff; 
-      transform:scale(1.05);
-    }
-
-    /* ==== Progress Bar ==== */
-    .progress {
-      height:4px; 
-      background:#222; 
-      overflow:hidden;
+    .progress-track {
+      height:8px; background:rgba(255,255,255,0.08); border-radius:12px; overflow:hidden;
       position:relative;
     }
     .progress-fill {
-      width:0; 
-      height:100%; 
-      background:#ff3b5c; 
-      transition:width .6s ease;
+      height:100%; width:0%; border-radius:12px;
+      background:linear-gradient(90deg,var(--primary),var(--secondary));
+      position:relative; overflow:hidden; transition:width 0.8s cubic-bezier(0.4,0,0.2,1);
+    }
+    .progress-fill::after {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);
+      animation:shimmer 2.5s infinite;
+    }
+    @keyframes shimmer { 0% { transform:translateX(-100%); } 100% { transform:translateX(100%); } }
+    .progress-labels {
+      display:flex; justify-content:space-between; margin-top:0.5rem; font-size:0.8rem; color:var(--text-faint);
     }
 
-    /* ==== Success Screen ==== */
-    .success {
-      text-align:center; 
-      padding:2rem 1.2rem;
+    /* === Step Content === */
+    .step { display:none; animation:fadeIn 0.5s ease-out; }
+    .step.active { display:block; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:none;} }
+
+    /* === Cards === */
+    .card {
+      background: var(--glass); backdrop-filter: blur(20px);
+      border:1px solid var(--border); border-radius:20px;
+      padding:1.75rem; margin-bottom:1.5rem;
+      box-shadow:0 15px 35px rgba(0,0,0,0.2);
+      transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
     }
-    .success h2 { 
-      font-size:1.5rem; 
-      margin-bottom:.75rem; 
-      background:linear-gradient(90deg, #ff3b5c, #ff8c42);
-      -webkit-background-clip:text; 
-      -webkit-text-fill-color:transparent;
+    .card:hover { transform:translateY(-4px); border-color:rgba(255,46,90,0.2); }
+    .card-header {
+      display:flex; align-items:center; justify-content:space-between; margin-bottom:1.25rem;
     }
-    .success p { 
-      font-size:.95rem; 
-      line-height:1.5; 
-      color:#aaa;
+    .card-title {
+      font-size:1.15rem; font-weight:700; display:flex; align-items:center; gap:0.5rem;
     }
-    .joke {
-      margin-top:1.5rem;
-      font-size:.8rem;
-      color:#666;
-      font-style:italic;
+    .card-icon {
+      width:36px; height:36px; background:var(--primary); color:#fff;
+      border-radius:12px; display:flex; align-items:center; justify-content:center;
+      font-size:1rem; flex-shrink:0;
+    }
+
+    /* === Form Controls === */
+    .form-group { margin-bottom:1.5rem; }
+    .form-label {
+      display:block; margin-bottom:0.6rem; font-size:0.95rem; font-weight:600;
+      color:var(--text-muted);
+    }
+    .form-input {
+      width:100%; padding:1rem 1.25rem; background:rgba(255,255,255,0.04);
+      border:2px solid var(--border); border-radius:16px; color:var(--text);
+      font-size:1rem; transition:all 0.3s ease; backdrop-filter:blur(8px);
+    }
+    .form-input:focus {
+      outline:none; border-color:var(--primary);
+      background:rgba(255,255,255,0.08); box-shadow:0 0 0 4px rgba(255,46,90,0.2);
+    }
+    .form-input::placeholder { color:var(--text-faint); }
+
+    /* === Buttons === */
+    .btn {
+      width:100%; padding:1.1rem; border:none; border-radius:16px;
+      font-size:1rem; font-weight:700; cursor:pointer; position:relative;
+      overflow:hidden; transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    .btn::before {
+      content:''; position:absolute; inset:0; background:rgba(255,255,255,0.15);
+      opacity:0; transition:opacity 0.3s;
+    }
+    .btn:hover::before { opacity:1; }
+    .btn-primary {
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+      color:#fff; box-shadow:0 12px 30px rgba(255,46,90,0.3);
+    }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 20px 40px rgba(255,46,90,0.4); }
+    .btn-primary:active { transform:translateY(0); }
+    .btn-outline {
+      background:transparent; color:var(--text-muted);
+      border:2px solid var(--border); margin-top:1rem;
+    }
+    .btn-outline:hover { border-color:var(--primary); color:var(--text); }
+
+    /* === Plan Selection === */
+    .plans-grid {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin:1.5rem 0;
+    }
+    .plan-card {
+      background:rgba(255,255,255,0.03); border:2px solid var(--border);
+      border-radius:16px; padding:1.5rem 1rem; text-align:center; cursor:pointer;
+      transition:all 0.3s ease; position:relative; overflow:hidden;
+    }
+    .plan-card::before {
+      content:''; position:absolute; inset:0; background:linear-gradient(135deg,var(--primary),var(--secondary));
+      opacity:0; transition:opacity 0.3s;
+    }
+    .plan-card:hover { border-color:var(--primary); transform:translateY(-6px); }
+    .plan-card.selected {
+      border-color:var(--primary); background:rgba(255,46,90,0.08);
+      box-shadow:0 15px 30px rgba(255,46,90,0.2);
+    }
+    .plan-card.selected::before { opacity:0.1; }
+    .plan-day { font-size:1.6rem; font-weight:900; margin-bottom:0.25rem; }
+    .plan-label { font-size:0.85rem; color:var(--text-muted); }
+
+    /* === Loader === */
+    .loader-container {
+      display:flex; flex-direction:column; align-items:center; padding:2rem 0;
+    }
+    .spinner {
+      width:64px; height:64px; border:5px solid rgba(255,255,255,0.1);
+      border-top:5px solid var(--primary); border-radius:50%;
+      animation:spin 1.2s linear infinite; margin-bottom:1.5rem;
+    }
+    .loader-text {
+      font-size:0.95rem; color:var(--text-muted); text-align:center;
+    }
+    .loader-dots {
+      display:flex; gap:0.5rem; margin-top:1rem;
+    }
+    .dot {
+      width:10px; height:10px; background:var(--accent); border-radius:50%;
+      animation:bounce 1.4s infinite ease-in-out;
+    }
+    .dot:nth-child(2) { animation-delay:0.2s; }
+    .dot:nth-child(3) { animation-delay:0.4s; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    @keyframes bounce {
+      0%,80%,100% { transform:scale(0); opacity:0.5; }
+      40% { transform:scale(1); opacity:1; }
+    }
+
+    /* === Success Screen === */
+    .success-screen {
+      text-align:center; padding:3rem 1.5rem;
+    }
+    .success-animation {
+      width:140px; height:140px; margin:0 auto 2rem;
+      background:conic-gradient(from 0deg, var(--primary), var(--secondary), var(--accent), var(--primary));
+      border-radius:50%; display:flex; align-items:center; justify-content:center;
+      position:relative; animation:spinSuccess 3s linear infinite;
+    }
+    .success-animation::before {
+      content:'\f00c'; font-family:'Font Awesome 6 Free'; font-weight:900;
+      font-size:3.5rem; color:#fff; z-index:2;
+    }
+    .success-animation::after {
+      content:''; position:absolute; inset:8px; background:var(--bg); border-radius:50%;
+    }
+    @keyframes spinSuccess { to { transform:rotate(360deg); } }
+    .success-title {
+      font-size:2rem; font-weight:900; margin-bottom:0.75rem;
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .success-message {
+      font-size:1rem; color:var(--text-muted); line-height:1.7; margin-bottom:2rem;
+    }
+    .order-summary {
+      background:rgba(255,255,255,0.03); border-radius:16px;
+      padding:1.5rem; border:1px solid var(--border); margin:2rem 0;
+    }
+    .summary-row {
+      display:flex; justify-content:space-between; padding:0.75rem 0;
+      border-bottom:1px solid var(--border);
+    }
+    .summary-row:last-child { border:none; }
+    .summary-label { color:var(--text-faint); font-size:0.9rem; }
+    .summary-value { font-weight:600; color:var(--text); }
+
+    /* === Footer === */
+    .footer {
+      margin-top:auto; padding:1.5rem 0; text-align:center; font-size:0.8rem;
+      color:var(--text-faint);
+    }
+    .footer-links {
+      display:flex; justify-content:center; gap:1.5rem; margin-top:0.75rem;
+    }
+    .footer-links a {
+      color:var(--text-faint); text-decoration:none; transition:color 0.3s;
+    }
+    .footer-links a:hover { color:var(--primary); }
+
+    /* === Floating Elements === */
+    .float-badge {
+      position:fixed; background:rgba(255,46,90,0.1); backdrop-filter:blur(12px);
+      border:1px solid rgba(255,46,90,0.2); border-radius:16px; padding:0.75rem 1rem;
+      font-size:0.8rem; font-weight:600; color:var(--primary); z-index:5;
+      animation:float 6s ease-in-out infinite;
+    }
+    .float-badge:nth-child(1) { top:15%; left:8%; animation-delay:0s; }
+    .float-badge:nth-child(2) { bottom:20%; right:8%; animation-delay:2s; }
+    @keyframes float {
+      0%,100% { transform:translateY(0) rotate(0deg); opacity:0.8; }
+      50% { transform:translateY(-15px) rotate(3deg); opacity:1; }
+    }
+
+    /* === Responsive === */
+    @media (max-width: 480px) {
+      .app-container { padding:0.75rem; }
+      .header { padding:1.5rem 1.25rem; }
+      .logo-text { font-size:1.5rem; }
+      .card { padding:1.5rem; }
+      .success-animation { width:120px; height:120px; }
+      .success-animation::before { font-size:3rem; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <!-- Background -->
+  <div class="bg-canvas"></div>
+
+  <!-- Floating Badges -->
+  <div class="float-badge">24/7 Support</div>
+  <div class="float-badge">100% Secure</div>
+
+  <div class="app-container">
     <!-- Header -->
-    <header>
-      <h1>Free Fire Monthly</h1>
-      <div class="badge">JOKE</div>
+    <header class="header">
+      <div class="logo">
+        <div class="logo-icon"><i class="fas fa-fire"></i></div>
+        <div class="logo-text">FF Elite</div>
+      </div>
+      <div class="tagline">
+        <span>Premium Monthly Delivery</span>
+        <div class="status-badge"><i class="fas fa-circle"></i> Online</div>
+      </div>
     </header>
 
     <!-- Progress -->
-    <div class="progress"><div class="progress-fill" id="prog"></div></div>
+    <div class="progress-container">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-labels">
+        <span>Verification</span>
+        <span>Processing</span>
+        <span>Plan</span>
+        <span>Contact</span>
+        <span>Done</span>
+      </div>
+    </div>
 
     <!-- Step 1: UID -->
     <section class="step active" id="step1">
-      <label for="uid">Enter Your UID</label>
-      <input type="text" id="uid" placeholder="123456789" autocomplete="off"/>
-      <button class="btn btn-primary" onclick="nextStep(2)">Verify UID</button>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="card-icon"><i class="fas fa-id-card"></i></div>
+            <span>UID Verification</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="uid">Free Fire UID</label>
+          <input type="text" class="form-input" id="uid" placeholder="Enter your 9-digit UID" maxlength="10" inputmode="numeric">
+        </div>
+        <button class="btn btn-primary" onclick="nextStep(2)">
+          <span>Verify UID</span>
+          <i class="fas fa-arrow-right" style="margin-left:0.5rem;"></i>
+        </button>
+      </div>
     </section>
 
     <!-- Step 2: Processing -->
     <section class="step" id="step2">
-      <p style="text-align:center; margin-bottom:1rem;">🔍 Verifying UID…</p>
-      <p style="text-align:center; font-size:.9rem; color:#777;">
-        (This is a joke – nothing is sent!)
-      </p>
-      <button class="btn btn-primary" onclick="nextStep(3)" style="margin-top:1rem;">Continue</button>
-    </section>
-
-    <!-- Step 3: Choose Days -->
-    <section class="step" id="step3">
-      <label>Choose Delivery Time</label>
-      <div class="days-grid">
-        <div class="day-card" data-days="1">1 Day</div>
-        <div class="day-card" data-days="2">2 Days</div>
-        <div class="day-card" data-days="3">3 Days</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="card-icon"><i class="fas fa-search"></i></div>
+            <span>Account Verification</span>
+          </div>
+        </div>
+        <div class="loader-container">
+          <div class="spinner"></div>
+          <div class="loader-text">
+            <p>Validating your Free Fire account...</p>
+            <p style="font-size:0.85rem; margin-top:0.5rem;">This may take a few seconds</p>
+          </div>
+          <div class="loader-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+        </div>
       </div>
-      <button class="btn btn-primary" id="daysNext" disabled onclick="nextStep(4)">Next</button>
     </section>
 
-    <!-- Step 4: Facebook Username -->
+    <!-- Step 3: Plan Selection -->
+    <section class="step" id="step3">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="card-icon"><i class="fas fa-gem"></i></div>
+            <span>Choose Delivery Speed</span>
+          </div>
+        </div>
+        <div class="plans-grid">
+          <div class="plan-card" data-days="1">
+            <div class="plan-day">1</div>
+            <div class="plan-label">Day</div>
+          </div>
+          <div class="plan-card" data-days="2">
+            <div class="plan-day">2</div>
+            <div class="plan-label">Days</div>
+          </div>
+          <div class="plan-card" data-days="3">
+            <div class="plan-day">3</div>
+            <div class="plan-label">Days</div>
+          </div>
+        </div>
+        <button class="btn btn-primary" id="planNext" disabled onclick="nextStep(4)">
+          Continue <i class="fas fa-chevron-right" style="margin-left:0.5rem;"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- Step 4: Contact -->
     <section class="step" id="step4">
-      <label for="fb">Facebook Username</label>
-      <input type="text" id="fb" placeholder="@yourname" autocomplete="off"/>
-      <button class="btn btn-primary" onclick="nextStep(5)">Submit</button>
-      <button class="btn btn-secondary" onclick="resetAll()">Start Over</button>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="card-icon"><i class="fas fa-user"></i></div>
+            <span>Contact Information</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fb">Facebook Username</label>
+          <input type="text" class="form-input" id="fb" placeholder="Enter @yourusername">
+        </div>
+        <button class="btn btn-primary" onclick="nextStep(5)">
+          Submit Order <i class="fas fa-paper-plane" style="margin-left:0.5rem;"></i>
+        </button>
+        <button class="btn btn-outline" onclick="resetAll()">Start Over</button>
+      </div>
     </section>
 
-    <!-- Step 5: Success / Joke -->
-    <section class="step success" id="step5">
-      <h2>🎉 Delivered!</h2>
-      <p>We’ll contact <strong id="fbOut"></strong> in <strong id="daysOut"></strong> day(s).</p>
-      <p class="joke">…just kidding! Nothing was saved. Refresh to prank again. 😜</p>
-      <button class="btn btn-primary" onclick="resetAll()">Play Again</button>
+    <!-- Step 5: Success -->
+    <section class="step" id="step5">
+      <div class="success-screen">
+        <div class="success-animation"></div>
+        <h2 class="success-title">Order Confirmed!</h2>
+        <p class="success-message">
+          Your monthly diamonds are being processed. You will be contacted via Facebook within your selected timeframe.
+        </p>
+        
+        <div class="order-summary">
+          <div class="summary-row">
+            <span class="summary-label">UID</span>
+            <span class="summary-value" id="finalUid">-</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Delivery Time</span>
+            <span class="summary-value" id="finalDays">-</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Contact</span>
+            <span class="summary-value" id="finalFb">-</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Status</span>
+            <span class="summary-value" style="color:var(--success);">Processing</span>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="resetAll()">
+          New Order <i class="fas fa-plus" style="margin-left:0.5rem;"></i>
+        </button>
+      </div>
     </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>© 2025 FF Elite Pass. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Support</a>
+      </div>
+    </footer>
   </div>
 
   <script>
-    const steps = [null,1,2,3,4,5];
-    let current = 1;
+    let currentStep = 1;
     let selectedDays = null;
+    const totalSteps = 5;
 
     function updateProgress() {
-      const pct = ((current-1)/4)*100;
-      document.getElementById('prog').style.width = pct + '%';
+      const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+      document.getElementById('progressFill').style.width = progress + '%';
     }
 
-    function nextStep(to) {
-      if (to === 2) {
+    function nextStep(step) {
+      // Validation
+      if (step === 2) {
         const uid = document.getElementById('uid').value.trim();
-        if (!uid) { alert('Enter a UID first!'); return; }
+        if (!uid || uid.length < 8) {
+          alert('Please enter a valid UID (minimum 8 digits)');
+          return;
+        }
       }
-      if (to === 4 && !selectedDays) { alert('Pick a day!'); return; }
-      if (to === 5) {
+      if (step === 4 && !selectedDays) {
+        alert('Please select a delivery timeframe');
+        return;
+      }
+      if (step === 5) {
         const fb = document.getElementById('fb').value.trim();
-        if (!fb) { alert('Enter Facebook username!'); return; }
-        document.getElementById('fbOut').textContent = fb;
-        document.getElementById('daysOut').textContent = selectedDays;
+        if (!fb || !fb.startsWith('@')) {
+          alert('Please enter your Facebook username starting with @');
+          return;
+        }
+        // Populate final data
+        document.getElementById('finalUid').textContent = document.getElementById('uid').value;
+        document.getElementById('finalDays').textContent = selectedDays + ' Day' + (selectedDays > 1 ? 's' : '');
+        document.getElementById('finalFb').textContent = document.getElementById('fb').value;
       }
 
-      document.getElementById(`step${current}`).classList.remove('active');
-      current = to;
-      document.getElementById(`step${current}`).classList.add('active');
+      // Transition
+      document.getElementById(`step${currentStep}`).classList.remove('active');
+      currentStep = step;
+      document.getElementById(`step${currentStep}`).classList.add('active');
       updateProgress();
+
+      // Auto-advance processing
+      if (step === 2) {
+        setTimeout(() => nextStep(3), 2800);
+      }
     }
 
-    // Days selection
-    document.querySelectorAll('.day-card').forEach(card => {
+    // Plan selection
+    document.querySelectorAll('.plan-card').forEach(card => {
       card.addEventListener('click', () => {
-        document.querySelectorAll('.day-card').forEach(c => c.classList.remove('selected'));
+        document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
         card.classList.add('selected');
         selectedDays = card.dataset.days;
-        document.getElementById('daysNext').disabled = false;
+        document.getElementById('planNext').disabled = false;
       });
     });
 
     function resetAll() {
-      current = 1;
+      currentStep = 1;
       selectedDays = null;
       document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
       document.getElementById('step1').classList.add('active');
       document.getElementById('uid').value = '';
       document.getElementById('fb').value = '';
-      document.querySelectorAll('.day-card').forEach(c => c.classList.remove('selected'));
-      document.getElementById('daysNext').disabled = true;
+      document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+      document.getElementById('planNext').disabled = true;
       updateProgress();
     }
 
-    // Auto-advance “processing” step
-    setTimeout(() => {
-      if (current === 2) nextStep(3);
-    }, 1800);
+    // Input formatting
+    document.getElementById('uid').addEventListener('input', function(e) {
+      this.value = this.value.replace(/[^0-9]/g, '');
+    });
+
+    // Initialize
+    updateProgress();
   </script>
 </body>
 </html>
